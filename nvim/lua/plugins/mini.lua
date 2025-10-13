@@ -1,7 +1,7 @@
 return {
   -- You can install individual mini.nvim modules
   {
-    "echasnovski/mini.nvim",
+    "nvim-mini/mini.nvim",
     version = false,
     config = function()
       -- Example: Install mini.surround
