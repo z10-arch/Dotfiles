@@ -12,7 +12,7 @@ return {
       end,
       open_mapping = [[<c-\>]],
       hide_numbers = true,
-      shade_terminals = true,
+      shade_terminals = false, -- Changed to false for transparency
       shading_factor = 2,
       start_in_insert = true,
       insert_mappings = true,
@@ -35,20 +35,34 @@ return {
     config = function(_, opts)
       require("toggleterm").setup(opts)
 
+      -- Apply transparency to toggleterm
+      local transparent = true
+      if transparent then
+        vim.api.nvim_set_hl(0, "ToggleTerm", { bg = "none" })
+        vim.api.nvim_set_hl(0, "ToggleTermBorder", { bg = "none" })
+      end
+
       -- Custom terminal functions
       local Terminal = require("toggleterm.terminal").Terminal
 
       -- Lazygit integration
       local lazygit = Terminal:new({
         cmd = "lazygit",
-        dir = "git_dir",
         direction = "float",
         float_opts = {
           border = "double",
+          winblend = 0,
         },
         on_open = function(term)
           vim.cmd("startinsert!")
           vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+          -- Apply transparency to lazygit terminal
+          if transparent then
+            vim.api.nvim_win_set_option(term.window, "winblend", 0)
+          end
+        end,
+        on_exit = function()
+          vim.cmd("startinsert!")
         end,
       })
 
@@ -133,9 +147,9 @@ return {
       map("v", "<leader>ts", "<cmd>ToggleTermSendVisualSelection<CR>", { desc = "Send selection to terminal" })
 
       -- Multiple terminals
-      map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { desc = "Terminal: Float" })
-      map("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", { desc = "Terminal: Horizontal" })
-      map("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", { desc = "Terminal: Vertical" })
+      map("n", "<leader>tf", "<cmd>ToggleTerm<CR>", { desc = "Terminal: Float" })
+      map("n", "<leader>th", "<cmd>15ToggleTerm direction=horizontal<CR>", { desc = "Terminal: Horizontal" })
+      map("n", "<leader>tv", "<cmd>ToggleTerm size=40 direction=vertical<CR>", { desc = "Terminal: Vertical" })
     end,
   },
 }
