@@ -1,17 +1,21 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
+# Path for Golang
+export PATH=$PATH:/usr/local/go/bin
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="devcontainers"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME="devcontainers"
+# Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -70,8 +74,7 @@ ZSH_THEME="devcontainers"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
-plugins=(git fzf-tab zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting)
+plugins=(git fzf-tab zsh-autosuggestions fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,10 +106,23 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-DISABLE_AUTO_UPDATE=true
-DISABLE_UPDATE_PROMPT=true
-eval "$(oh-my-posh init zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/honukai.omp.json)"
-#eval "$(oh-my-posh init zsh --config ~/.poshthemes/minimal-path-files.omp.json)"
+# eval "$(oh-my-posh init zsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/honukai.omp.json)"
+# if [[ $- == *i* ]]; then
+#   printf '\033[6 q'
+# fi
+
+themes=(1_shell M365Princess agnoster.minimal agnoster agnosterplus aliens amro atomic atomicBit avit blue-owl blueish bubbles bubblesextra bubblesline capr4n catppuccin catppuccin_frappe catppuccin_latte catppuccin_macchiato catppuccin_mocha cert chips cinnamon clean-detailed cloud-context cloud-native-azure cobalt2 craver darkblood devious-diamonds di4am0nd dracula easy-term emodipt-extend emodipt fish free-ukraine froczh glowsticks gmay grandpa-style gruvbox half-life honukai hotstick.minimal hul10 hunk huvix if_tea illusi0n iterm2 jandedobbeleer jblab_2021 jonnychipz json jtracey93 jv_sitecorian kali kushal lambda lambdageneration larserikfinholt lightgreen marcduiker markbull material microverse-power mojada montys mt multiverse-neon negligible neko night-owl nordtron nu4a onehalf.minimal paradox pararussel patriksvensson peru pixelrobots plague poshmon powerlevel10k_classic powerlevel10k_lean powerlevel10k_modern powerlevel10k_rainbow powerline probua.minimal pure quick-term remk robbyrussell rudolfs-dark rudolfs-light sim-web slim slimfat smoothie sonicboom_dark sonicboom_light sorin space spaceship star stelbent-compact.minimal stelbent.minimal takuya the-unnamed thecyberden tiwahu tokyo tokyonight_storm tonybaloney uew unicorn velvet wholespace wopian xtoys ys zash)
+
+theme=${themes[$RANDOM % ${#themes[@]}]}
+url="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/${theme}.omp.json"
+
+# echo "🎨 Applying random Oh-My-Posh theme: $theme"
+eval "$(oh-my-posh init zsh --config $url)"
+
 if [[ $- == *i* ]]; then
   printf '\033[6 q'
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
