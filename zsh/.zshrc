@@ -119,3 +119,4 @@ export PATH="$GOPATH/bin:$PATH"
 
 # Go toolchain path (added by Rovo Dev)
 export PATH="/usr/local/go/bin:$PATH"
+eval "$(zoxide init zsh)"
